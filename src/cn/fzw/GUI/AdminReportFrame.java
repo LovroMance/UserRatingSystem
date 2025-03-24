@@ -33,11 +33,6 @@ public class AdminReportFrame extends JFrame {
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-
-
-
-
-
                 return false; // 禁止编辑表格内容
             }
         };

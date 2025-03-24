@@ -46,7 +46,7 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
+                String password = new String(passwordField.getPassword());  //返回值为char[]类型
 
                 UserDao userDao = new UserDaoImpl();
                 try {
@@ -72,6 +72,5 @@ public class LoginFrame extends JFrame {
                 new RegisterFrame().setVisible(true); // 打开注册界面
             }
         });
-
     }
 }

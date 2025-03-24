@@ -54,10 +54,28 @@ public class ProductListFrame extends JFrame {
             UserDao userDao = new UserDaoImpl();
             User currentUser = userDao.getUserById(currentUserId);
             if (currentUser.isAdmin()) {
+                // 举报管理菜单项
                 JMenuItem reportManageItem = new JMenuItem("举报管理");
                 reportManageItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
                 reportManageItem.addActionListener(e -> new AdminReportFrame().setVisible(true));
                 userMenu.add(reportManageItem);
+
+                // 查看用户评论菜单项
+                JMenuItem viewUserReviewsItem = new JMenuItem("查看用户评论");
+                viewUserReviewsItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+                viewUserReviewsItem.addActionListener(e -> {
+                    // 弹出输入框，输入用户ID
+                    String userIdStr = JOptionPane.showInputDialog(this, "请输入用户ID：", "查看用户评论", JOptionPane.PLAIN_MESSAGE);
+                    if (userIdStr != null && !userIdStr.trim().isEmpty()) {
+                        try {
+                            int userId = Integer.parseInt(userIdStr);
+                            new UserReviewFrame(userId).setVisible(true); // 打开用户评论页面
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(this, "用户ID必须是数字！");
+                        }
+                    }
+                });
+                userMenu.add(viewUserReviewsItem);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "加载用户信息失败！");
@@ -71,9 +89,9 @@ public class ProductListFrame extends JFrame {
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 增加内边距
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        // 商品展示面板（2行3列）
+        // 商品展示面板
         JPanel productPanel = new JPanel(new GridLayout(2, 3, 20, 20));
-        productPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 增加内边距
+        productPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20)); // 增加内边距
         productPanel.setBackground(new Color(240, 240, 240)); // 设置背景色
 
         try {
@@ -89,7 +107,7 @@ public class ProductListFrame extends JFrame {
                 ));
                 itemPanel.setBackground(Color.WHITE); // 设置背景色
 
-                // 商品信息面板
+                // 顶部名称价格
                 JPanel topPanel = new JPanel(new GridLayout(2, 1, 5, 5));
                 topPanel.setBackground(Color.WHITE);
 
@@ -107,7 +125,7 @@ public class ProductListFrame extends JFrame {
 
                 // 商品描述
                 JTextArea descArea = new JTextArea(product.getDescription());
-                descArea.setEditable(false);
+                descArea.setEditable(false);  //不可编辑
                 descArea.setLineWrap(true);
                 descArea.setWrapStyleWord(true);
                 descArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));

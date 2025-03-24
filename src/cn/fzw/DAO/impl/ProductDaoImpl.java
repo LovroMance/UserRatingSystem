@@ -14,7 +14,7 @@ public class ProductDaoImpl implements ProductDao {
     public int addProduct(Product product) throws Exception {
         String sql = "INSERT INTO product (product_name, price, description) VALUES (?, ?, ?)";
         try (Connection conn = DButils.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, product.getProductName());
             pstmt.setBigDecimal(2, product.getPrice());
             pstmt.setString(3, product.getDescription());
